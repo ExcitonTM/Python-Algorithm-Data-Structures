@@ -3,6 +3,16 @@ from data_structures.union_find import UnionFind
 
 
 def _shift_idx(match_ij, start_idx):
+    """
+    Helper function to shift all indices in match_ij by start_idx
+    Args:
+        match_ij (List[List[int]]): List of lists of indices
+        start_idx (int): Amount to shift for every index
+
+    Returns:
+        List[List[int]]: the input match_ij have all indices shifted by amount start_idx
+
+    """
     for i in range(len(match_ij)):
         match_i = [match_idx + start_idx for match_idx in match_ij[i]]
         match_ij[i] = match_i
@@ -11,7 +21,11 @@ def _shift_idx(match_ij, start_idx):
 
 class MultiLayerCluster:
     """
+    Cluster points in k dimensions from multiple layers. Points are clustered based on their distance to neighbours.
+    Points with distance less than threshold are clustered together
 
+    Args:
+        layers (List[List[tuple]]): A list of layers. Each layer is a list of tuples that represent k-dimensional points
     """
 
     def __init__(self, layers):
@@ -31,6 +45,18 @@ class MultiLayerCluster:
             self.layers_combined += layer
 
     def cluster_all_layers(self, self_r, other_r):
+        """
+        Use scipy kd-tree data structure to find matching points within searching radius
+
+        Args:
+            self_r: radius threshold to cluster points within the same layer
+            other_r: radius threshold to cluster points in different layers
+
+        Returns:
+            List[List[int]]: List is of the length equal to total number of points. Each sublist at index i includes
+            matching points for the point at index i.
+
+        """
         for i in range(self.num_layers):
             tree_i = self.layers_tree[i]
             if tree_i:
@@ -50,6 +76,13 @@ class MultiLayerCluster:
         return self.match_all_layers
 
     def compress_match(self):
+        """
+        Compress the matching indices using union find structure
+
+        Returns:
+            dict: A dictionary of all the clusters.
+
+        """
         uf = UnionFind(len(self.match_all_layers))
         for i, connect in enumerate(self.match_all_layers):
             for j in connect:
