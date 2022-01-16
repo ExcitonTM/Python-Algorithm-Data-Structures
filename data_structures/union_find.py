@@ -11,46 +11,48 @@ class UnionFind:
         self.parent_tracker = list(range(size))
         self.component_size = [1] * size
 
-    def find_parent(self, p):
+    def find(self, x):
         """
         Find the parent index of a given index p. Do path compression after finding parent.
 
         Args:
-            p (int): input node.
+            x (int): input node.
 
         Returns:
             int: the parent of the input node.
 
         """
-        parent = p
+        parent = x
         while parent != self.parent_tracker[parent]:
             parent = self.parent_tracker[parent]
-        while p != parent:
-            next_node = self.parent_tracker[p]
-            self.parent_tracker[p] = parent
-            p = next_node
+
+        # Path compression optimization
+        while x != parent:
+            next_node = self.parent_tracker[x]
+            self.parent_tracker[x] = parent
+            x = next_node
         return parent
 
-    def union(self, p, q):
+    def union(self, x, y):
         """
         Union two input nodes.
 
         Args:
-            p (int): first input node.
-            q (int): second input node.
+            x (int): first input node.
+            y (int): second input node.
 
         Returns:
 
         """
-        parent_p = self.find_parent(p)
-        parent_q = self.find_parent(q)
-        if parent_p != parent_q:
-            if self.component_size[parent_p] < self.component_size[parent_q]:
-                self.component_size[parent_q] += self.component_size[parent_p]
-                self.parent_tracker[parent_p] = parent_q
+        parent_x = self.find(x)
+        parent_y = self.find(y)
+        if parent_x != parent_y:
+            if self.component_size[parent_x] < self.component_size[parent_y]:
+                self.component_size[parent_y] += self.component_size[parent_x]
+                self.parent_tracker[parent_x] = parent_y
             else:
-                self.component_size[parent_p] += self.component_size[parent_q]
-                self.parent_tracker[parent_q] = parent_p
+                self.component_size[parent_x] += self.component_size[parent_y]
+                self.parent_tracker[parent_y] = parent_x
         return
 
     def list_unions(self):
@@ -62,7 +64,7 @@ class UnionFind:
         """
         union_dict = {}
         for idx in range(self.size):
-            parent = self.find_parent(idx)
+            parent = self.find(idx)
             union = union_dict.get(parent, [])
             union.append(idx)
             union_dict[parent] = union
