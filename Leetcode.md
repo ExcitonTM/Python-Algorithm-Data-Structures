@@ -5,12 +5,14 @@ Leet code problems compilation.
 ## Table of Contents
 - [DFS & BFS](#dfs-and-bfs)
 - [Union Find](#union-find)
+- [Minimum Spanning Tree](#minimum-spanning-tree)
 - [Sliding Window](#sliding-window)
 
 
 ## DFS and BFS
 - [261. Graph Valid Tree](https://leetcode.com/problems/graph-valid-tree/) \
-If a graph is fully connected and contains exactly n - 1 edges, it can't possibly contain a cycle, and therefore must be a tree!
+If a graph is fully connected and contains exactly n - 1 edges, it can't possibly contain a cycle, and must be a tree. \
+Problem can also be solved with Union find.
 
 
 ## Union Find
@@ -21,6 +23,12 @@ Can also use DFS/BFS
 
 - [1202. Smallest String With Swaps](https://leetcode.com/problems/smallest-string-with-swaps/)
 
+- [399. Evaluate Division](https://leetcode.com/problems/evaluate-division/)
+
+
+## Minimum Spanning Tree
+
+- [1168. Optimize Water Distribution in a Village](https://leetcode.com/problems/optimize-water-distribution-in-a-village/)
 
 
 ## Sliding window
