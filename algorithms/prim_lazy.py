@@ -7,8 +7,9 @@ class PrimLazy:
         Implementation of Prim algorithm to find minimum spanning tree. "Lazy" means we keep all edges from explored
         territory to unexplored in a heap. Only when we pop the edge from the heap, we check if
         the destination edge has already been reached through an edge with smaller weight earlier.
-        The algorithm can optimized with an "eager" implementation where for a given node, only
-        the edge with the smallest weight is stored(in an indexed priority queue as opposed to heap).
+
+        The algorithm can optimized with an "eager" implementation. For a given node, only
+        the incoming edge with the smallest weight is stored(in an indexed priority queue as opposed to heap).
         Args:
             num_nodes:
             adjacency_list_with_weight:
@@ -21,9 +22,13 @@ class PrimLazy:
         mst_edges = []
         mst_cost = 0
         visited = [False] * self.num_nodes
+
+        # For eager version, we instead update index pq for each vertice with the lowest incoming edge weight
         self._add_edges(s, visited)
+
         while len(self.pq) > 0 and (len(mst_edges) != self.num_nodes-1):
             weight, from_node, to_node = heapq.heappop(self.pq)
+            # No longer need to check this in eager version
             if visited[to_node]:
                 continue
             mst_cost += weight
